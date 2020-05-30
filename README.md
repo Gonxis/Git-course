@@ -246,6 +246,38 @@ In the `.gitignore` file, you can use the following:
     * a/b/z
     * a/b/c/z
 
+### Git tag
+
+The command we'll be using to interact with the repository's tags is the git tag command:
+
+```
+$ git tag -a v1.0
+```
+
+with the flag `-a` in the command, we will be creating an annotated tag. Annotated tags are recommended because they include a lot of extra information such as:
+
+* the person who made the tag
+* the date the tag was made
+* a message for the tag
+
+If we don't provide the flag (i.e. `git tag v1.0`) then it'll create what's called a lightweight tag.
+
+A Git tag can be deleted with the -d flag (for delete!) and the name of the tag:
+
+```
+$ git tag -d v1.0
+```
+
+Running `git tag -a v1.0` will tag the most recent commit. But what if you wanted to tag a commit that occurred farther back in the repo's history?
+
+All you have to do is provide the SHA of the commit you want to tag!
+
+```
+$ git tag -a v1.0 a87984
+```
+
+(after popping open a code editor to let you supply the tag's message) this command will tag the commit with the SHA `a87084` with the tag `v1.0`.
+
 ### Helpful Links
 
 #### Git init
@@ -287,3 +319,5 @@ In the `.gitignore` file, you can use the following:
 * [gitignore](https://git-scm.com/docs/gitignore#_pattern_format)
 * [Ignoring files Article](https://help.github.com/articles/ignoring-files/)
 * [gitignore.io](https://www.gitignore.io/)
+* [Git Basics - Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
+* [Git Tag](https://git-scm.com/docs/git-tag)
