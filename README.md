@@ -197,6 +197,10 @@ This command:
 * [git status docs](https://git-scm.com/docs/git-status)
 * [git status Tutorial](https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-status)
 
+#### Git Commit
+
+* [How to get out of Vim](https://stackoverflow.com/questions/11828270/how-to-exit-the-vim-editor)
+
 #### Further Research
 
 * [Version Control on Wikipedia](https://en.wikipedia.org/wiki/Version_control)
