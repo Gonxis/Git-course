@@ -278,6 +278,83 @@ $ git tag -a v1.0 a87984
 
 (after popping open a code editor to let you supply the tag's message) this command will tag the commit with the SHA `a87084` with the tag `v1.0`.
 
+### Git branch
+
+The `git branch` command is used to interact with Git's branches:
+
+```
+$ git branch
+```
+
+It can be used to:
+
+* list all branch names in the repository
+* create new branches
+* delete branches
+
+If we type out just `git branch` it will list out the branches in a repository:
+
+![Git Branch Command](img/git_branch.png)
+
+#### Create a branch
+
+To create a branch, all you have to do is use `git branch` and provide it the name of the branch you want it to create. So if you want a branch called "sidebar", you'd run this command:
+
+```
+$ git branch sidebar
+```
+
+#### The `git checkout` command
+
+When a commit is made that it will be added to the current branch. So even though we created the new `sidebar`, no new commits will be added to it since we haven't *switched to it*, yet. If we made a commit right now, that commit would be added to the `master` branch, *not* the `sidebar` branch. We've already seen this in the demo, but to switch between branches, we need to use Git's `checkout` command.
+
+```
+$ git checkout sidebar
+```
+
+It's important to understand how this command works. Running this command will:
+
+* remove all files and directories from the Working Directory that Git is tracking
+    * (files that Git tracks are stored in the repository, so nothing is lost)
+* go into the repository and pull out all of the files and directories of the commit that the branch points to
+
+So this will remove all of the files that are referenced by commits in the master branch. It will replace them with the files that are referenced by the commits in the sidebar branch.
+
+#### The active branch
+
+The *fastest* way to determine the active branch is to look at the output of the `git branch` command. An asterisk will appear next to the name of the active branch.
+
+#### Delete a branch
+
+If we want to delete the branch, we'd use the `-d` flag. The command below includes the `-d` flag which tells Git to *delete* the provided branch (in this case, the "sidebar" branch).
+
+```
+$ git branch -d sidebar
+```
+
+One thing to note is that we can't delete a branch that we're currently on. So to delete the `sidebar` branch, we'd have to switch to either the `master` branch or create and switch to a new branch.
+
+Git won't let us delete a branch if it has commits on it that aren't on any other branch (meaning the commits are unique to the branch that's about to be deleted). If we created the `sidebar` branch, added commits to it, and then tried to delete it with the `git branch -d sidebar`, Git wouldn't let us delete the branch because we can't delete a branch that we're currently on. If we switched to the `master` branch and tried to delete the `sidebar` branch, Git *also* wouldn't let us do that because those new commits on the `sidebar` branch would be lost! To force deletion, we need to use a capital D flag - `git branch -D sidebar`.
+
+So, the `git branch` command is used to manage branches in Git:
+
+```
+# to list all branches
+$ git branch
+
+# to create a new "footer-fix" branch
+$ git branch footer-fix
+
+# to delete the "footer-fix" branch
+$ git branch -d footer-fix
+```
+
+This command is used to:
+
+* list out local branches
+* create new branches
+* remove branches
+
 ### Helpful Links
 
 #### Git init
@@ -321,3 +398,6 @@ $ git tag -a v1.0 a87984
 * [gitignore.io](https://www.gitignore.io/)
 * [Git Basics - Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
 * [Git Tag](https://git-scm.com/docs/git-tag)
+* [Git Branching - Basic Branching and Merging](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)
+* [Learn Git Branching](http://learngitbranching.js.org/)
+* [Git Branching Tutorial](https://www.atlassian.com/git/tutorials/using-branches)
