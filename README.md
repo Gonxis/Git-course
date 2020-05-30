@@ -152,6 +152,31 @@ However, `git show` can be combined with most of the other flags we've looked at
 * `-p` or `--patch` - this the default, but if `--stat` is used, the patch won't display, so pass `-p` to add it again
 * `-w` - to ignore changes to whitespace
 
+### Git add
+
+uses `git add` to add the files you want to the Staging Index:
+
+```
+$ git add index.html file_2 ... file_N
+```
+
+![Git add index.html and the git status](img/git_add_index_html.gif)
+
+The git add command is used to move files from the Working Directory to the Staging Index.
+
+```
+$ git add <file1> <file2> … <fileN>
+```
+
+```
+$ git add .
+```
+
+This command:
+
+* takes a space-separated list of file names
+* alternatively, the period `.` can be used in place of a list of files to tell Git to add the current directory (and all nested files)
+
 ### Helpful Links
 
 #### Git init
