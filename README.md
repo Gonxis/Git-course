@@ -177,6 +177,75 @@ This command:
 * takes a space-separated list of file names
 * alternatively, the period `.` can be used in place of a list of files to tell Git to add the current directory (and all nested files)
 
+### Git commit
+
+The `git commit` command takes files from the Staging Index and saves them in the repository.
+
+```
+$ git commit
+```
+
+This command:
+
+* will open the code editor that is specified in your configuration
+    * (check out the Git configuration step from the first lesson to configure your editor)
+
+Inside the code editor:
+
+* a commit message must be supplied
+* lines that start with a `#` are comments and will not be recorded
+* save the file after adding a commit message
+* close the editor to make the commit
+
+Then, we use `git log` to review the commit we just made!
+
+Here are some important things to think about when crafting a good commit message:
+
+**Do**
+
+* do keep the message short (less than 60-ish characters)
+* do explain what the commit does (not how or why!)
+
+**Do not**
+
+* do not explain why the changes are made (more on this below)
+* do not explain how the changes are made (that's what `git log -p` is for!)
+* do not use the word "and"
+    * if you have to use "and", your commit message is probably doing too many changes - break the changes into separate commits
+    * e.g. "make the background color pink and increase the size of the sidebar"
+
+The best way that I've found to come up with a commit message is to finish this phrase, "This commit will...". However, you finish that phrase, use that as your commit message.
+
+### Git diff
+
+The `git diff` command is used to see changes that have been made but haven't been committed, yet:
+
+```
+$ git diff
+```
+
+This command displays:
+
+* the files that have been modified
+* the location of the lines that have been added/removed
+* the actual changes that have been made
+
+### .gitignore
+
+The `.gitignore` file is used to tell Git about the files that Git should not track. This file should be placed in the same directory that the `.git` directory is in.
+
+In the `.gitignore` file, you can use the following:
+
+* blank lines can be used for spacing
+* `#` - marks line as a comment
+* `*` - matches 0 or more characters
+* `?` - matches 1 character
+* `[abc]` - matches a, b, _or_ c
+* `**` - matches nested directories - `a/**/z` matches
+    * a/z
+    * a/b/z
+    * a/b/c/z
+
 ### Helpful Links
 
 #### Git init
@@ -200,6 +269,8 @@ This command:
 #### Git Commit
 
 * [How to get out of Vim](https://stackoverflow.com/questions/11828270/how-to-exit-the-vim-editor)
+* [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/)
+* [A Note About Git Commit Messages](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
 
 #### Further Research
 
@@ -209,3 +280,10 @@ This command:
 * [Git Internals - Plumbing and Porcelain](https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain)
 * [Customizing Git - Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
 * [Generating patches with -p](https://git-scm.com/docs/git-diff#_generating_patches_with_p)
+* [Associating text editors with Git](https://help.github.com/articles/associating-text-editors-with-git/)
+* [Getting Started - First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup)
+* [git diff](https://git-scm.com/docs/git-diff)
+* [Ignoring files](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files)
+* [gitignore](https://git-scm.com/docs/gitignore#_pattern_format)
+* [Ignoring files Article](https://help.github.com/articles/ignoring-files/)
+* [gitignore.io](https://www.gitignore.io/)
