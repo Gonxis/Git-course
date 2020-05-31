@@ -3,6 +3,7 @@
 ### Git Terminology and CheatSheet
 
 [Git Cheat Sheet](Git_Cheatsheet.pdf)
+
 [Git Terminology](Git_Terminology.pdf)
 
 ### Git init
@@ -129,6 +130,14 @@ Using the image above, let's do a quick recap of the `git log -p` output:
 * ✏️ - the actual changes made in the commit
     * lines that are red and start with a minus (`-`) were in the original version of the file but have been removed by the commit
     * lines that are green and start with a plus (`+`) are new lines that have been added in the commit
+
+#### See all branches at once
+
+```
+$ git log --oneline --decorate --graph --all
+```
+
+The `--graph` flag adds the bullets and lines to the leftmost part of the output. This shows the actual *branching* that's happening. The `--all` flag is what displays *all* of the branches in the repository.
 
 ### Git show
 
@@ -355,6 +364,87 @@ This command is used to:
 * create new branches
 * remove branches
 
+Here is a way to change to a new branch just created with a single command line:
+
+```
+$ git checkout -b new-branch-as-same-location-as-master master
+```
+
+### Git merge
+
+The git merge command is used to combine Git branches:
+
+```
+$ git merge <name-of-branch-to-merge-in>
+```
+
+When a merge happens, Git will:
+
+* look at the branches that it's going to merge
+* look back along the branch's history to find a single commit that *both* branches have in their commit history
+* combine the lines of code that were changed on the separate branches together
+* makes a commit to record the merge
+
+#### Fast-forward Merge
+
+When we merge, we're merging some other branch into the current (checked-out) branch. We're not merging two branches into a new branch. We're not merging the current branch into the other branch.
+
+Since `new-branch` is directly ahead of `master`, this merge is one of the easiest merges to do. Merging `new-branch` into `master` will cause a **Fast-forward merge**. A Fast-forward merge will just move the currently checked out branch *forward* until it points to the same commit that the other branch (in this case, `new-branch`) is pointing to.
+
+To merge in the `new-branch` branch, run:
+
+```
+$ git merge new-branch
+```
+
+#### Perform a Regular Merge
+
+To merge in the `divergent-branch` branch, make sure you're on the `master` branch and run:
+
+
+```
+$ git merge divergent-branch
+```
+
+Because this combines two divergent branches, a commit is going to be made. And when a commit is made, a commit message needs to be supplied. Since this is a *merge commit* a default message is already supplied. It's common practice to use the default merge commit message.
+
+#### What if a merge fails?
+
+Git is able to intelligently combine lots of work on different branches. However, there are times when it can't combine branches together. When a merge is performed and fails, that is called a **merge conflict**.
+
+If a merge conflict does occur, Git will try to combine as much as it can, but then it will leave special markers (e.g. `>>>` and `<<<`).
+
+A merge conflict occurs when *the exact same line(s) are changed in separate branches*.
+
+#### Merge Conflict Indicators Explanation
+
+The editor has the following merge conflict indicators:
+
+* `<<<<<<< HEAD` everything below this line (until the next indicator) shows you what's on the current branch
+* `||||||| merged common ancestors` everything below this line (until the next indicator) shows you what the original lines were
+* `=======` is the end of the original lines, everything that follows (until the next indicator) is what's on the branch that's being merged in
+* `>>>>>>> heading-update` is the ending indicator of what's on the branch that's being merged in (in this case, the `heading-update` branch)
+
+#### Resolving a merge conflict
+
+To resolve a merge conflict, we need to:
+
+1. choose which line(s) to keep
+2. remove all lines with indicators
+
+The `git merge` command is used to combine branches in Git:
+
+```
+$ git merge <other-branch>
+```
+
+There are two types of merges:
+
+* Fast-forward merge – the branch being merged in must be *ahead* of the checked out branch. The checked out branch's pointer will just be moved forward to point to the same commit as the other branch.
+* the regular type of merge
+    * two divergent branches are combined
+    * a merge commit is created
+
 ### Helpful Links
 
 #### Git init
@@ -401,3 +491,8 @@ This command is used to:
 * [Git Branching - Basic Branching and Merging](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)
 * [Learn Git Branching](http://learngitbranching.js.org/)
 * [Git Branching Tutorial](https://www.atlassian.com/git/tutorials/using-branches)
+* [Basic Merging](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#Basic-Merging)
+* [git-merge from Git Docs](https://git-scm.com/docs/git-merge)
+* [git merge from Atlassian blog](https://www.atlassian.com/git/tutorials/git-merge)
+* [Basic Merge Conflicts](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#Basic-Merge-Conflicts)
+* [How Conflicts Are Presented](https://git-scm.com/docs/git-merge#_how_conflicts_are_presented)
