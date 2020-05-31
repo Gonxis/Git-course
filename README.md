@@ -636,6 +636,106 @@ Typically, ancestry references are used to indicate previous commits. The ancest
 * `^` – indicates the parent commit
 * `~` – indicates the first parent commit
 
+### Git remote
+
+Remotes can be accessed in a couple of ways:
+
+* with a URL
+* path to a file system
+
+Even though it's possible to create a remote repository on your file system, it's very rarely used. By far the most common way to access a remote repository is through a URL to a repository that’s out on the web.
+
+The way we can interact and control a remote repository is through the Git remote command:
+
+```
+$ git remote
+```
+
+The git remote command will let you manage and interact with remote repositories.
+
+If you want to see the full path to the remote repository, then all you have to do is use the `-v` flag
+
+the following command is to create a connection from our local repository to the remote repository we just created on our GitHub account:
+
+```
+$ git remote add origin https://github.com/Gonxis/repository-for-the-project.git
+```
+
+There are a couple of things to notice about the command you just ran on the command line:
+
+1. first, this command has the sub command `add`
+2. the word `origin` is used - this is setting the shortname that we discussed earlier
+
+    * Remember that the word `origin` here isn't special in any way.
+    * If you want to change this to `repo-on-GitHub`, then (before running the command) just change the word "origin" to "repo-on-GitHub":
+        ```
+        $ git remote add repo-on-GitHub https://github.com/Gonxis/Gonxis-some-other-project.git
+        ```
+
+3. third, the full path to the repository is added (i.e. the URL to the remote repository on the web)
+
+Now I'll use `git remote -v` to verify that I've added the remote repository correctly.
+
+### Git push
+
+To send local commits to a remote repository we need to use the `git push` command. We provide the remote short name and then we supply the name of the branch that contains the commits we want to push:
+
+```
+$ git push <remote-shortname> <branch>
+```
+
+Our remote's shortname is `origin` and the commits that we want to push are on the `master` branch. So we'll use the following command to send our commits to the remote repository on GitHub:
+
+```
+$ git push origin master
+```
+
+There a couple of things to notice:
+
+* Depending on how we have configured GitHub and the remote URL that's being used, we might have to enter our username and password.
+    * this will happen if we use the HTTP version of the remote (rather than the `ssh` version)
+    * If we have configured GitHub to use the SSH protocol and have supplied it with our SSH key then we don't need to worry about doing this step. Check the [Connecting to GitHub with SSH documentation page](https://help.github.com/articles/connecting-to-github-with-ssh/) if we're interested in using SSH with GitHub.
+* If we have to enter our username and password our username will show up after typing but pur password will not. So just keep typing our password and press enter when we're done.
+    * If we encounter any errors with our password don't worry it'll just ask we to type it in again
+* Git does some compressing of things to make it smaller and then sends those off to the remote
+* A new branch is created - at the very bottom it says `[new branch]` and then `master -> master`
+
+### Git pull
+
+The branch that appears in the *local* repository is actually tracking a branch in the *remote* repository (e.g. `origin/master` in the local repository is called a **tracking branch** because it's tracking the progress of the `master` branch on the remote repository that has the shortname "origin").
+
+The `origin/master` branch is not a live mapping of where the remote's master branch is located. If the remote's `master` moves, the local `origin/master` branch stays the same. To update this branch, we need to sync the two together.
+
+`git push` will sync the *remote* repository with the *local* repository. To do the opposite (to sync the *local* with the *remote*), we need to use `git pull`. The format for `git pull` is very similar to `git push` - you provided the shortname for the remote repository and then the name of the branch you want to pull in the commits.
+
+```
+$ git pull origin master
+```
+
+There's several things to note about running this command:
+
+* the format is very similar to that of `git push` - there's counting and compressing and packing of items
+* it has the phrase "fast-forward" which means Git did a fast-forward merge (we'll dig into this in just a second)
+    * it displays information similar to `git log --stat` where it shows the files that have been changed and how many lines were added or removed in them
+    
+If you don't want to automatically merge the local branch with the tracking branch then you wouldn't use `git pull` you would use a different command called `git fetch`. You might want to do this if there are commits on the repository that you don't have *but* there are also commits on the local repository that the remote one doesn't have either.
+
+### Git fetch
+
+You can think of the `git pull` command as doing two things:
+
+1. fetching remote changes (which adds the commits to the local repository and moves the tracking branch to point to them)
+2. merging the local branch with the tracking branch
+
+The `git fetch` command is just the first step. It just retrieves the commits and moves the tracking branch. It *does not* merge the local branch with the tracking branch. The same information provided to `git pull` is passed to `git fetch`:
+
+* the shortname of the remote repository
+* the branch with commits to retrieve
+
+```
+$ git fetch origin master
+```
+
 ### Helpful Links
 
 #### Git init
@@ -692,3 +792,7 @@ Typically, ancestry references are used to indicate previous commits. The ancest
 * [git-reset](https://git-scm.com/docs/git-reset)
 * [Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)
 * [Ancestry References](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#Ancestry-References)
+* [Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes#_showing_your_remotes)
+* [the `git remote` command](https://git-scm.com/docs/git-remote)
+
+* [Your unofficial guide to dotfiles on GitHub.](https://dotfiles.github.io/)
