@@ -736,6 +736,217 @@ The `git fetch` command is just the first step. It just retrieves the commits an
 $ git fetch origin master
 ```
 
+### Git fork
+
+Trying to run the `git fork` command produces an error. (Also, `fsck` is not a rude word, it means "filesystem check" and refers to auditing the files for consistency.)
+
+If a repository doesn't belong to our account then it means we do not have permission to modify it.
+
+This is where forking comes in! Instead of modifying the original repository directly, if we fork the repository to our own account then we will have full control over that repository.
+
+Forking is an action that's done on a hosting service, like GitHub. Forking a repository creates an identical copy of the original repository and moves this copy to our account. You have total control over this forked repository. Modifying our forked repository does not alter the original repository in any way.
+
+### Git shortlog
+
+A way that we can see how many commits each contributor has added to the repository is to use the `git shortlog` command:
+
+```
+$ git shortlog
+```
+
+`git shortlog` displays an alphabetical list of names and the commit messages that go along with them. If we just want to see just the number of commits that each developer has made, we can add a couple of flags: `-s` to show just the number of commits (rather than each commit's message) and `-n` to sort them numerically (rather than alphabetically by author name).
+
+```
+$ git shortlog -s -n
+```
+
+Another way that we can display all of the commits by an author is to use the regular `git log` command but include the `--author` flag to filter the commits to the provided author.
+
+```
+$ git log --author=Surma
+```
+
+The `git log` command is extremely powerful, and you can use it to discover a lot about a repository. But it can be especially helpful to discover information about a repository that you're collaborating on with others. You can use `git log` to:
+
+* group commits by author with `git shortlog`
+
+    ```
+    $ git shortlog
+    ```
+
+* filter commits with the `--author` flag
+
+    ```
+    $ git log --author="Richard Kalehoff"
+    ```
+
+* filter commits using the `--grep` flag
+
+    ```
+    $ git log --grep="border radius issue in Safari"
+    ```
+
+grep is a complicated topic and you can find out more about it [here on the Wiki page](https://en.wikipedia.org/wiki/Grep).
+
+### What to work on
+
+#### Best Practices
+
+##### Write Descriptive Commit Messages
+
+While we're talking about naming branches clearly that describe what changes the branch contains, I need to throw in another reminder about how critical it is to write clear, descriptive, commit messages. The more descriptive your branch name and commit messages are the more likely it is that the project's maintainer will not have to ask you questions about the purpose of your code or have dig into the code themselves. The less work the maintainer has to do, the faster they'll include your changes into the project.
+
+##### Create Small, Focused Commits
+
+This has been stressed numerous times before but make sure when you are committing changes to the project that you make smaller commits. Don't make massive commits that record 10+ file changes and changes to hundreds of lines of code. You want to make smaller, more frequent commits that record just a handful of file changes with a smaller number of line changes.
+
+Think about it this way: if the developer does not like a portion of the changes you're adding to a massive commit, there's no way for them to say, "I like commit A, but just not the part where you change the sidebar's background color." A commit can't be broken down into smaller chunks, so make sure your commits are in small enough chunks and that each commit is focused on altering just one thing. This way the maintainer can say I like commits A, B, C, D, and F but not commit E.
+
+##### Update The README
+
+And lastly if any of the code changes that you're adding drastically changes the project you should update the README file to instruct others about this change.
+
+##### Recap
+
+Before we start doing any work, make sure to look for the project's CONTRIBUTING.md file.
+
+Next, it's a good idea to look at the GitHub issues for the project
+
+* look at the existing issues to see if one is similar to the change we want to contribute
+* if necessary create a new issue
+* communicate the changes we'd like to make to the project maintainer in the issue
+
+When we start developing, commit all of our work on a topic branch:
+
+* do not work on the master branch
+* make sure to give the topic branch clear, descriptive name
+
+As a general best practice for writing commits:
+
+* make frequent, smaller commits
+* use clear and descriptive commit messages
+* update the README file, if necessary
+
+### Pull request
+
+A **pull request** is a request to the *original* or *source repository's* maintainer to include changes in their project that you made in your fork of their project. You are requesting that they *pull* in changes you've made.
+
+A pull request is a *request* for the source repository to pull in your commits and merge them with their project. To create a pull request, a couple of things need to happen:
+
+* you must *fork* the source repository
+* clone your fork down to your machine
+* make some commits (ideally on a topic branch!)
+* push the commits back to *your fork*
+* create a new pull request and choose the branch that has your new commits
+
+### Stars & Watching
+
+#### Stars 
+
+If we want to keep up-to-date with the Repository, GitHub offers a convenient way to keep track of repositories - it lets you star repositories.
+
+[Repositories you starred to](https://github.com/stars)
+
+Starring is helpful if we want to keep track of certain repositories. But it's not entirely helpful if we need to actively keep up with a repositories development because we have to manually go to the stars page to view the repositories and see if they've changed.
+
+#### Watching
+
+If you need to keep up with a project's changes and want to be notified of when things change, GitHub offers a "Watch" feature.
+
+If we're working on a repository quite often, then I'd suggest setting the watch setting to "Watching". This way GitHub will notify us whenever anything happens with the repository like people pushing changes to the repository, new issues being created, or comments being added to existing issues.
+
+Incase Lam starts making changes to her project that I won't have in my fork of her project, I'll add her project as an additional remote so that I can stay in sync with her.
+
+In my local repository, I already have one remote repository which is `origin` remote.
+
+Remember that the word `origin` is just the *default* name that's used when you `git clone` a remote repository for the first time. We're going to use the `git remote` command to *add* a *new* shortname and URL to this list. This will give us a connection to the source repository.
+
+```
+$ git remote add upstream https://github.com/Gonxis/some-random-project.git
+```
+
+#### Origin vs Upstream Clarification
+
+One thing that can be a tiny bit confusing right now is the difference between the `origin` and `upstream`. What might be confusing is that `origin` does *not* refer to the source repository (also known as the *"original"* repository) that we forked from. Instead, it's pointing to our forked repository. So even though it has the word `origin` is not actually the original repository.
+
+Remember that the names `origin` and `upstream` are just the default or de facto names that are used. If it's clearer for you to name your `origin` remote `mine` and the `upstream` remote `source-repo`, then by all means, go ahead and rename them. What you name your remote repositories in your local repository does not affect the source repository at all.
+
+![rename a repo](img/rename_repos.png)
+
+When working with a project that you've forked. The original project's maintainer will continue adding changes to their project. You'll want to keep your fork of their project in sync with theirs so that you can include any changes they make.
+
+To get commits from a source repository into your forked repository on GitHub you need to:
+
+* get the cloneable URL of the source repository
+* create a new remote with the `git remote add` command
+    * use the shortname `upstream` to point to the source repository
+    * provide the URL of the source repository
+* fetch the new `upstream` remote
+* merge the `upstream`'s branch into a local branch
+* push the newly updated local branch to your `origin` repo
+
+### Manage an active PR
+
+When you submit a pull request, remember that you're asking another developer to add *your* code changes to their project. If they ask you to make some minor (even major!) changes to your pull request, that doesn't mean they're rejecting your work! It just means that they would like the code added to their project in a certain way.
+
+The CONTRIBUTING.md file should be used to list out all information that the project's maintainer wants, so make sure to follow the information there. But that doesn't mean there might be times where the project's maintainer will ask you to do a few additional things.
+
+So what should you do? Well, if you want your pull request to be accepted, then you make the change! Remember that the tab in GitHub is called the "Conversation" tab. So feel free to communicate back and forth with the project's maintainer to clarify exactly what they want you to do.
+
+It also wouldn't hurt to thank them for taking the time to look over your pull request. Most of the developers that are working on open source projects are doing it unpaid. So remember to:
+
+* be kind - the project's maintainer is a regular person just like you
+* be patient - they will respond as soon as they are able
+
+As simple as at may seem, working on an active pull request is mostly about communication!
+
+If the project's maintainer is requesting changes to the pull request, then:
+
+* make any necessary commits on the same branch in your local repository that your pull request is based on
+* push the branch to the *your* fork of the source repository
+The commits will then show up on the pull request page.
+
+### Squash commits
+
+#### Rebase Commands
+
+Let's take another look at the different commands that you can do with `git rebase`:
+
+* use `p` or `pick` – to keep the commit as is
+* use `r` or `reword` – to keep the commit's content but alter the commit message
+* use `e` or `edit` – to keep the commit's content but stop before committing so that you can:
+    * add new content or files
+    * remove content or files
+    * alter the content that was going to be committed
+* use `s` or `squash` – to combine this commit's changes into the previous commit (the commit above it in the list)
+* use `f` or `fixup` – to combine this commit's change into the previous one but drop the commit message
+* use `x` or `exec` – to run a shell command
+* use `d` or `drop` – to delete the commit
+
+#### When to rebase
+
+As you've seen, the `git rebase` command is incredibly powerful. It can help you edit commit messages, reorder commits, combine commits, etc. So it truly is a powerhouse of a tool. Now the question becomes "*When* should you rebase?".
+
+Whenever you rebase commits, Git will create a new SHA *for each commit*! This has drastic implications. To Git, the SHA is the identifier for a commit, so a different identifier means it's a different commit, *regardless if the content has changed at all*.
+
+So you should not rebase if you have already pushed the commits you want to rebase. If you're collaborating with other developers, then they might already be working with the commits you've pushed. If you then use `git rebase` to change things around and then force push the commits, then the other developers will now be out of sync with the remote repository. They will have to do some complicated surgery to their Git repository to get their repo back in a working state...and it might not even be possible for them to do that; they might just have to scrap all of their work and start over with your newly-rebased, force-pushed commits.
+
+#### Recap
+
+The `git rebase` command is used to do a great many things.
+
+```
+# interactive rebase
+$ git rebase -i <base>
+
+# interactively rebase the commits to the one that's 3 before the one we're on
+$ git rebase -i HEAD~3
+```
+
+Inside the interactive list of commits, all commits start out as `pick`, but you can swap that out with one of the other commands (`reword`, `edit`, `squash`, `fixup`, `exec`, and `drop`).
+
+I recommend that you create a `backup` branch *before* rebasing, so that it's easy to return to your previous state. If you're happy with the rebase, then you can just delete the `backup` branch!
+
 ### Helpful Links
 
 #### Git init
@@ -794,5 +1005,15 @@ $ git fetch origin master
 * [Ancestry References](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#Ancestry-References)
 * [Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes#_showing_your_remotes)
 * [the `git remote` command](https://git-scm.com/docs/git-remote)
+* [Git Branching - Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)
+* [git-rebase](https://git-scm.com/docs/git-rebase)
+* [Tutorial rewriting history -> git-rebase](https://www.atlassian.com/git/tutorials/rewriting-history#git-rebase)
 
 * [Your unofficial guide to dotfiles on GitHub.](https://dotfiles.github.io/)
+
+#### Extra links
+
+* [Up for grabs](https://up-for-grabs.net/#/)
+* [Friendly Open Source projects should reserve specific issues for newbies](https://www.firsttimersonly.com/)
+* [first-timers-only label on GitHub](https://github.com/search?utf8=%E2%9C%93&q=label%3Afirst-timers-only+is%3Aopen&type=Issues&ref=searchresults)
+* [Git-it app](https://github.com/jlord/git-it-electron)
